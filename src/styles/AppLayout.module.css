@@ -1,0 +1,25 @@
+.MainContent {
+  background-color: grey;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.MainLayout {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.MainLayout.sidebarIsOpen {
+  transition: margin 0.3s;
+}
+
+@media (min-width: 876px) {
+  .MainLayout {
+    margin-left: 50px;
+  }
+  .MainLayout.sidebarIsOpen {
+    margin-left: 210px;
+  }
+}

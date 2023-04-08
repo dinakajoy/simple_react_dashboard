@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense, lazy } from "react";
+import { Routes, Route } from "react-router-dom";
+import AppLayout from "./components/layouts/AppLayout";
+import LoadingIndicator from "./components/loaders/LoadingIndicator";
+import reloadOnFail from "./utils/reloadOnFail";
 
-function App() {
+const HomePage = lazy(() => reloadOnFail(() => import("./pages/Home")));
+
+const TestPage = lazy(() => reloadOnFail(() => import("./pages/Test")));
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.StrictMode>
+      <Suspense fallback={<LoadingIndicator />}>
+        <AppLayout>
+          <Suspense fallback={<LoadingIndicator />}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/test" element={<TestPage />} />
+            </Routes>
+          </Suspense>
+        </AppLayout>
+      </Suspense>
+    </React.StrictMode>
   );
 }
-
-export default App;
